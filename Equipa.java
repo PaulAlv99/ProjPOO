@@ -38,29 +38,6 @@ public class Equipa {
     public Equipa(String nome){
         this.nome=nome;
     }
-    public List<Jogador> getJogadores() {
-        return jogadores;
-    }
-
-    public void setJogadores(List<Jogador> jogadores) {
-        this.jogadores = jogadores;
-    }
-    public void addJogadores(List<Jogador> jogadores, Jogador jogador) {
-    if (this.jogadores.size() <= MAX_JOGADORES) {
-        jogador.setEquipa(this.getNome());
-        this.jogadores.add(jogador);
-    } else {
-        System.out.println("Equipa cheia");
-    }
-}
-    public void removeJogadores(List<Jogador> jogadores,Jogador jogador){
-        for(int i=0;i<jogadores.size();i++){
-            if(jogadores.get(i).getNome().equalsIgnoreCase(jogador.getNome())){
-                jogadores.remove(i);
-                break;
-            }
-        }
-    }
     public String getNome(){
         return this.nome;
     }
@@ -132,17 +109,12 @@ public class Equipa {
     }
     
     public void setTreinador(String nome,int idade){
-        this.treinador.setNome(nome);
-        this.treinador.setIdade(idade);
-    }
-    public void setTreinador(Treinador treinador){
-        this.treinador=treinador;
-        this.treinador.setEquipaAtreinar(this.getNome());
-        
+        treinador.SetNome(nome);
+        treinador.SetIdade(idade);
     }
     
     public String toString(){
-        return "Equipa: " + nome + "\nTreinador: " + treinador.getNome() + "\nLiga: " + Liga + 
+        return "Equipa: " + nome + "\nTreinador: " + treinador.GetNome() + "\nLiga: " + Liga + 
                 "\nDesempenho médio: " + desempenhoMedio + "\nNumero de vitorias: " + numeroVitorias 
                 +"\nNumero de derrotas: " + numeroDerrotas +
                 "\nNumero de empates: " + numeroEmpates +
@@ -163,13 +135,13 @@ public class Equipa {
         int n_medios = 0;
         int n_defesas = 0;
         for (int i = 0; i<this.jogadores.size(); i++){
-            if(this.jogadores.get(i).getPosJogador() == "MEDIO"){
+            if(this.jogadores.get(i).getPosJogador() == "medio"){
                 n_medios = n_medios + 1;
             }
-            else if(this.jogadores.get(i).getPosJogador() == "ATACANTE"){
+            else if(this.jogadores.get(i).getPosJogador() == "atacante"){
                 n_atacantes = n_atacantes + 1;
             }
-            else if(this.jogadores.get(i).getPosJogador() == "DEFESA"){
+            else if(this.jogadores.get(i).getPosJogador() == "defesa"){
                 n_defesas = n_defesas + 1;
             }
         }
