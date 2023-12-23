@@ -38,7 +38,7 @@ public class Menu {
     }
     public void infojogador(String nome, List <Jogador> jogadores, int total ){
         for(int i=0; i<jogadores.size(); i++){
-            if(nome.equals(jogadores.get(i).getNome())){
+            if(nome.equals(jogadores.get(i).GetNome())){
                 break;
             }
         }
@@ -51,7 +51,7 @@ public class Menu {
         for(int j=0; j<ligas.size(); j++){
             for(int i=0; i< ligas.get(j).getequipas().size(); i++){
                 for(int k = 0; k<ligas.get(j).getequipas().get(i).getJogadoresLista().size(); k++){
-                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).getNome())){
+                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).GetNome())){
                         ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).mostrarinfojogador();
                         existe = true;
                         break;
@@ -115,6 +115,7 @@ public class Menu {
     }
     
     public void escolha(List <Liga> ligas,List <Equipa> equipas){
+        Scanner leitura = new Scanner(System.in);
         System.out.println("Escolha uma das opções: ");
         String escolha = leitura.nextLine();
         boolean sair=true;

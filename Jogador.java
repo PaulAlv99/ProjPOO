@@ -11,11 +11,26 @@ import java.util.*;
  */
 public class Jogador extends Pessoa {
     private String posicao="";
-    private String equipa="";
     private int overall = 0;
     private List<Lesoes> historico_lesoes=new ArrayList<>();
     private Ataque info_ataque = new Ataque();
     private Defesa info_defesa = new Defesa();
+
+    public Ataque getInfo_ataque() {
+        return info_ataque;
+    }
+
+    public void setInfo_ataque(Ataque info_ataque) {
+        this.info_ataque = info_ataque;
+    }
+
+    public Defesa getInfo_defesa() {
+        return info_defesa;
+    }
+
+    public void setInfo_defesa(Defesa info_defesa) {
+        this.info_defesa = info_defesa;
+    }
     private int nivel_agressividade=0;
     
     public Jogador(String nome,int idade,String posicao,int nivel_agressividade){
@@ -24,19 +39,9 @@ public class Jogador extends Pessoa {
         this.posicao=posicao;
         this.nivel_agressividade=nivel_agressividade;
     }
-    public Jogador(){
-        
-    }
-    public String getEquipa() {
-        return equipa;
-    }
-
-    public void setEquipa(String equipa) {
-        this.equipa = equipa;
-    }
-    public void setNivel_agressividade(int nivel_agressividade){
-        this.nivel_agressividade=nivel_agressividade;
-    }
+    
+    
+    
     public int getOverall() {
         return overall;
     }
@@ -44,7 +49,7 @@ public class Jogador extends Pessoa {
     public void setOverall(int overall) {
         this.overall = overall;
     }
-    
+
     public String getPosJogador(){
         return posicao;
     }
@@ -73,22 +78,6 @@ public class Jogador extends Pessoa {
         return historico_lesoes.size();
     }
     
-    public Ataque getInfo_ataque() {
-        return info_ataque;
-    }
-
-    public void setInfo_ataque(Ataque info_ataque) {
-        this.info_ataque = info_ataque;
-    }
-
-    public Defesa getInfo_defesa() {
-        return info_defesa;
-    }
-
-    public void setInfo_defesa(Defesa info_defesa) {
-        this.info_defesa = info_defesa;
-    }
-    
     public void listarLesoes(){
         String temp = new String();
         for(int i=0;i<historico_lesoes.size();i++){
@@ -103,7 +92,7 @@ public class Jogador extends Pessoa {
     }
     
     // Método para determinar a probabilidade de receber um cartão amarelo
-   private double calcularProbabilidadeCartaoAmarelo() {
+    private double calcularProbabilidadeCartaoAmarelo() {
         double baseProbabilidadeCartaoAmarelo = 0.15; // Probabilidade base
         double incrementoPorAgressividade = 0.05; // Incremento por unidade de agressividade
 
