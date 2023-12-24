@@ -11,18 +11,9 @@ import java.util.*;
 public class Treinador extends Pessoa {
     private int overall = 0;
     private int moral = 0;
-    private String equipaAtreinar="";
 
     public int getOverall() {
         return overall;
-    }
-
-    public String getEquipaAtreinar() {
-        return equipaAtreinar;
-    }
-
-    public void setEquipaAtreinar(String equipaAtreinar) {
-        this.equipaAtreinar = equipaAtreinar;
     }
 
     public void setOverall(int overall) {
@@ -71,9 +62,17 @@ public class Treinador extends Pessoa {
     }
     
    public String toString(){
-        return "Treinador: " + nome + "\nIdade: " + idade + "\nEquipa atual:"+equipaAtreinar+"\nEspecializacoes: " + especializacoes +
+        return "Treinador: " + nome + "\nIdade: " + idade +"\nEspecializacoes: " + especializacoes +
                 "\nTaticas preferidas: " + taticaspref;
         
+    }
+
+    void setIdade(int parseInt) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void setNome(String parte) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

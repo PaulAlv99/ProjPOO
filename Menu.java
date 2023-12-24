@@ -10,8 +10,18 @@ import java.util.*;
  * @author Paulo
  */
 public class Menu {
+    //private List<Liga> ligas;
+    //private List<Equipa> equipas;
     Scanner leitura = new Scanner(System.in);
-    public void opcoes(){
+
+    //public Menu(List<Liga> ligas, List<Equipa> equipas) {
+      //  this.ligas = ligas;
+        //this.equipas = equipas;
+    //}
+    Menu menu=new  Menu();
+
+
+    public void opcoes() {
         System.out.println("1. Aceder informações de um jogador \n2. Aceder informações de um treinador \n"
                 + "3. Aceder informações de uma equipa \n4. Criar uma partida \n"
                 + "5. Associar uma equipa de futebol a uma Liga \n6. Estatísticas de Equipa\n7. Sair");
@@ -38,7 +48,7 @@ public class Menu {
     }
     public void infojogador(String nome, List <Jogador> jogadores, int total ){
         for(int i=0; i<jogadores.size(); i++){
-            if(nome.equals(jogadores.get(i).getNome())){
+            if(nome.equals(jogadores.get(i).GetNome())){
                 break;
             }
         }
@@ -51,7 +61,7 @@ public class Menu {
         for(int j=0; j<ligas.size(); j++){
             for(int i=0; i< ligas.get(j).getequipas().size(); i++){
                 for(int k = 0; k<ligas.get(j).getequipas().get(i).getJogadoresLista().size(); k++){
-                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).getNome())){
+                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).GetNome())){
                         ligas.get(j).getequipas().get(i).getJogadoresLista().get(k).mostrarinfojogador();
                         existe = true;
                         break;
@@ -115,6 +125,7 @@ public class Menu {
     }
     
     public void escolha(List <Liga> ligas,List <Equipa> equipas){
+        Scanner leitura = new Scanner(System.in);
         System.out.println("Escolha uma das opções: ");
         String escolha = leitura.nextLine();
         boolean sair=true;
@@ -255,5 +266,5 @@ public void estatisticasEquipa(List <Liga> ligas){
             System.out.println("Equipa não existe!");
         }
     }
-    
+ 
 }

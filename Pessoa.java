@@ -9,19 +9,20 @@ package com.mycompany.poo.projetofase2;
  * @author Renato
  */
 public class Pessoa {
-    protected String nome;
-    protected int idade;
-    public String getNome(){
+    protected String nome="";
+    protected int idade=0;
+    
+    public String GetNome(){
         return nome;
     }
-    public void setNome(String nome){
+    public void SetNome(String nome){
         this.nome=nome;
     }
-    public int getIdade(){
+    public int GetIdade(){
         return idade;
     }
     
-    public void setIdade(int idade){
+    public void SetIdade(int idade){
         this.idade=idade;
     }
 }
