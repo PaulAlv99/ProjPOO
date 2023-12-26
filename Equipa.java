@@ -7,6 +7,7 @@ package com.mycompany.poo.projetofase2;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -23,9 +24,11 @@ public class Equipa {
     private int numeroGolosSofridos=0;
     private String tatica = ""; 
     private List<Jogador> jogadores=new ArrayList<Jogador>();
-    private Treinador treinador=new Treinador();
+    private TreinadorPrincipal treinadorprincipal=new TreinadorPrincipal();
+    private TreinadorAssistente treinadorassistente = new TreinadorAssistente();
     //significa que a classe em si o numero maximo de jogadores é 11,dai o uso de static
     //static ou seja pertence à classe e não à instancia
+    private int n_jogadores_disponiveis = 0;
     private static final int MAX_JOGADORES = 11;
     
     public Equipa(){
@@ -46,12 +49,20 @@ public class Equipa {
         this.jogadores = jogadores;
     }
     public void addJogadores(List<Jogador> jogadores, Jogador jogador) {
-    if (this.jogadores.size() <= MAX_JOGADORES) {
-        jogador.setEquipa(this.getNome());
-        this.jogadores.add(jogador);
+    if (this.jogadores.size() < MAX_JOGADORES) {
+        if (!jogadorEstaNaEquipa(jogadores, jogador)) {
+            jogador.setEquipa(this.getNome());
+            this.jogadores.add(jogador);
+        } else {
+            System.out.println("Jogador já encontra-se na equipa");
+        }
     } else {
         System.out.println("Equipa cheia");
     }
+}
+
+public boolean jogadorEstaNaEquipa(List<Jogador> jogadores, Jogador jogador) {
+    return this.jogadores.contains(jogador);
 }
     public void removeJogadores(List<Jogador> jogadores,Jogador jogador){
         for(int i=0;i<jogadores.size();i++){
@@ -95,8 +106,8 @@ public class Equipa {
         return Liga;
     }
     
-    public Treinador getTreinador(){
-        return treinador;
+    public TreinadorPrincipal getTreinadorPrincipal(){
+        return this.treinadorprincipal;
     }
     
     public void setNumeroGolos(int NumeroGolos) {
@@ -132,17 +143,17 @@ public class Equipa {
     }
     
     public void setTreinador(String nome,int idade){
-        this.treinador.setNome(nome);
-        this.treinador.setIdade(idade);
+        this.treinadorprincipal.setNome(nome);
+        this.treinadorprincipal.setIdade(idade);
     }
-    public void setTreinador(Treinador treinador){
-        this.treinador=treinador;
-        this.treinador.setEquipaAtreinar(this.getNome());
+    public void setTreinadorPrincipal(TreinadorPrincipal treinador){
+        this.treinadorprincipal=treinador;
+        this.treinadorprincipal.setEquipaAtreinar(this.getNome());
         
     }
     
     public String toString(){
-        return "Equipa: " + nome + "\nTreinador: " + treinador.getNome() + "\nLiga: " + Liga + 
+        return "Equipa: " + nome + "\nTreinador: " + treinadorprincipal.getNome() + "\nLiga: " + Liga + 
                 "\nDesempenho médio: " + desempenhoMedio + "\nNumero de vitorias: " + numeroVitorias 
                 +"\nNumero de derrotas: " + numeroDerrotas +
                 "\nNumero de empates: " + numeroEmpates +
@@ -187,24 +198,34 @@ public class Equipa {
     
     public void alterar_moral_treinador(){
         boolean tatica_preferida = false;
-        for(int i = 0; i < this.treinador.GetTaticaspref().size() ; i++){
-            if(this.treinador.GetTaticaspref().get(i).equals(this.tatica)){
+        for(int i = 0; i < this.treinadorprincipal.GetTaticaspref().size() ; i++){
+            if(this.treinadorprincipal.GetTaticaspref().get(i).equals(this.tatica)){
                 tatica_preferida = true;
                 break;
             }
         }
-        int overall = this.treinador.getOverall();
+        int overall = this.treinadorprincipal.getOverall();
         if(!tatica_preferida){
             if(overall > 10){
-                this.treinador.setMoral(overall - 10);
+                this.treinadorprincipal.setMoral(overall - 10);
             }
             else{
-                this.treinador.setMoral(1);
+                this.treinadorprincipal.setMoral(1);
             }
         }
         else{
-            this.treinador.setMoral(overall);
+            this.treinadorprincipal.setMoral(overall);
         }
     }
     
+    
+    public void treinarjogadores(){
+        Random aleatorio = new Random();
+        //(aleatorio.nextInt(1-0)+0)
+        for(int i = 0; i < this.jogadores.size(); i++){
+            if(this.treinadorassistente.getPosicaopreferida() == this.jogadores.get(i).getPosJogador()){
+                
+            }
+        }
+    }
 }

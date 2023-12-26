@@ -14,7 +14,7 @@ public class Menu {
     public void opcoes(){
         System.out.println("1. Aceder informações de um jogador \n2. Aceder informações de um treinador \n"
                 + "3. Aceder informações de uma equipa \n4. Criar uma partida \n"
-                + "5. Associar uma equipa de futebol a uma Liga \n6. Estatísticas de Equipa\n7. Sair");
+                + "5. Estatísticas de Equipa" + "\n6. Sair");
     }
     public boolean escolhavalida(String a){
         if(a.isEmpty()){
@@ -74,8 +74,8 @@ public class Menu {
         boolean existe = false;
         for(int j=0; j<ligas.size(); j++){
             for(int i=0; i< ligas.get(j).getequipas().size(); i++){
-                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getTreinador().nome)){
-                        System.out.println(ligas.get(j).getequipas().get(i).getTreinador());
+                    if(nome.equalsIgnoreCase(ligas.get(j).getequipas().get(i).getTreinadorPrincipal().nome)){
+                        System.out.println(ligas.get(j).getequipas().get(i).getTreinadorPrincipal());
                         existe = true;
                         break;
                     }
@@ -114,6 +114,79 @@ public class Menu {
         }
     }
     
+    public void criarpartida(List <Liga> ligas){
+        boolean continuar = false;
+        Liga escolhida = new Liga();
+        while(!continuar ){
+            System.out.println("Digite a liga onde quer criar uma partida: ");
+            String escolha = leitura.nextLine();
+            for(int i = 0; i < ligas.size(); i ++){
+                if(ligas.get(i).getNome().equals(escolha)){
+                    continuar = true;
+                    escolhida = ligas.get(i);
+                    break;
+                }
+            }
+            if(!continuar){
+                System.out.println("Liga não existe");
+            }
+            else{
+                System.out.println("Criando uma partida da liga escolhida...");
+            }
+        }
+        if(escolhida.getequipas().size() >= 2){
+        System.out.println("antes de atualizar jornada");
+        escolhida.atualizarn_jornadas();
+        System.out.println(escolhida.getjornada());
+        System.out.println(escolhida.getequipas().size());
+        System.out.println("antes de criar partida");
+        escolhida.criarpartida();
+        System.out.println("partida criada");
+        Partida partida = escolhida.Getpartidas().get(escolhida.Getpartidas().size()-1);
+        System.out.println("A partida criada foi: ");
+        System.out.println(partida.toString());
+        System.out.println("Executando partida...");
+        if(partida.getequipa_casa().getJogadores().size() >= 11 && partida.getequipa_visitante().getJogadores().size() >= 11){
+            partida.executarpartida();
+        }
+        else{
+            if(partida.getequipa_casa().getJogadores().size() >= 11 && partida.getequipa_visitante().getJogadores().size() < 11){
+                System.out.println("A equipa visitante não tem jogadores suficientes para iniciar a partida.");
+                partida.getequipa_casa().setNumeroVitorias(partida.getequipa_casa().getNumeroVitorias() + 1);
+                partida.getequipa_casa().setNumeroGolos(partida.getequipa_casa().getNumeroGolos() + 3);
+                partida.getequipa_visitante().setNumeroDerrotas(partida.getequipa_visitante().getNumeroDerrotas() + 1);
+                partida.getequipa_visitante().setNumeroGolosSofridos(partida.getequipa_visitante().getNumeroGolosSofridos() + 3);
+                partida.setGolos_marcados_casa(partida.getGolos_marcados_casa() + 3);
+                partida.setresultado();
+                partida.terminou();
+            }
+            else if(partida.getequipa_visitante().getJogadores().size() >= 11 && partida.getequipa_casa().getJogadores().size() < 11){
+                System.out.println("A equipa da casa não tem jogadores suficientes para iniciar a partida.");
+                partida.getequipa_visitante().setNumeroVitorias(partida.getequipa_visitante().getNumeroVitorias() + 1);
+                partida.getequipa_visitante().setNumeroGolos(partida.getequipa_visitante().getNumeroGolos() + 3);
+                partida.getequipa_casa().setNumeroDerrotas(partida.getequipa_casa().getNumeroDerrotas() + 1);
+                partida.getequipa_casa().setNumeroGolosSofridos(partida.getequipa_casa().getNumeroGolosSofridos() + 3);
+                partida.setGolos_sofridos_casa(partida.getGolos_sofridos_casa() + 3);
+                partida.setresultado();
+                partida.terminou();
+            }
+            else if(partida.getequipa_visitante().getJogadores().size() < 11 && partida.getequipa_casa().getJogadores().size() < 11){
+                System.out.println("Nenhuma das equipas tem jogadores suficientes para iniciar a partida.");
+                partida.getequipa_casa().setNumeroEmpates(partida.getequipa_casa().getNumeroEmpates() + 1);
+                partida.getequipa_visitante().setNumeroEmpates(partida.getequipa_visitante().getNumeroEmpates() + 1);
+                partida.setresultado();
+                partida.terminou();
+            }
+        }
+        System.out.println("O resultado final da partida foi: ");
+        System.out.println(partida.toString());
+        }
+        else{
+            System.out.println("Esta liga não tem pelo meons 2 equipas");
+        }
+        
+    }
+    
     public void escolha(List <Liga> ligas,List <Equipa> equipas){
         System.out.println("Escolha uma das opções: ");
         String escolha = leitura.nextLine();
@@ -134,15 +207,12 @@ public class Menu {
                 acederinfoequipa(ligas);
                 break;
             case 4:
-                
+                criarpartida(ligas);
                 break;
             case 5:
-                associarEquipaLiga(ligas,equipas);
-                break;
-            case 6:
                 estatisticasEquipa(ligas);
                 break;
-            case 7:
+            case 6:
                 sair=false;
                 break;
                 
@@ -184,7 +254,7 @@ public class Menu {
     public ArrayList<String> equipasDaLiga(List <Liga> ligas,String nome){
         int indiceLiga = ligaExisteNomeEquipa(ligas, nome);
         ArrayList<String> temp=new ArrayList();
-        for(int i=0;i<ligas.get(indiceLiga).getn_equipas();i++){
+        for(int i=0;i<ligas.get(indiceLiga).getequipas().size();i++){
             temp.add(ligas.get(indiceLiga).getequipas().get(i).getNome());
         }
         return temp;  
@@ -231,7 +301,7 @@ public class Menu {
 
     ligas.get(indiceLiga).addequipa(equipaAAdicionar);
 
-    for (int k = 0; k < ligas.get(indiceLiga).getn_equipas(); k++) {
+    for (int k = 0; k < ligas.get(indiceLiga).getequipas().size(); k++) {
         System.out.println("\n"+ligas.get(indiceLiga).getequipas().get(k));
     }
 }
