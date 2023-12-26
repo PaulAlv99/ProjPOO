@@ -12,8 +12,11 @@ import java.lang.Math.*;
  */
 public class Liga {
     private String nome = "";
-    private int n_equipas = 0;
-    private int jornada = 0;
+    private int jornada = 1;
+    
+    public int getjornada(){
+        return this.jornada;
+    }
     private List <Equipa> equipas = new ArrayList();
     private List <Arbitro> arbitros = new ArrayList();
     private List <Partida> partidas = new ArrayList();
@@ -23,23 +26,18 @@ public class Liga {
     public Liga(String nome){
            this.nome = nome;
     }
+    public Liga(){
+        
+    }
     public String getNome(){
         return this.nome;
     }
     public void setNome(String nome){
         this.nome = nome;
     }
-    public int getn_equipas(){
-        return this.n_equipas;
-    }
-    
-    public void setn_equipas(int n_equipas){
-        this.n_equipas = n_equipas;
-    }
     
     public void addequipa(Equipa a){
         this.equipas.add(a);
-        n_equipas++;
     }
     public void addarbitro(Arbitro a){
         this.arbitros.add(a);
@@ -53,6 +51,7 @@ public class Liga {
     }
    
     public void atualizarn_jornadas(){
+        if(equipas.size() > 1){
         int n_jogos = equipas.get(1).n_jogos();
         boolean atualizar = true;
         for(int i=0; i< equipas.size(); i++){
@@ -62,14 +61,21 @@ public class Liga {
             }
         }
         if(atualizar){
-            this.jornada = n_jogos;
+            this.jornada = n_jogos +1;
+            for(int j = 0; j < this.equipas.size(); j++){
+                this.equipas.get(j).treinarjogadores();
+            }
         }   
+        }
     }
     
     public int equipa1_defrontou_equipa2(Equipa a, Equipa b){
         int n_vezes_defrontou = 0;
         for(int i=0; i < partidas.size(); i++){
             Partida partida = partidas.get(i);
+            System.out.println(a.getNome());
+            System.out.println(b.getNome());
+            System.out.println(n_vezes_defrontou);
             if((partida.getequipa_casa() == a && partida.getequipa_visitante() == b)||(partida.getequipa_casa() == b && partida.getequipa_visitante() == a)){
                 n_vezes_defrontou = n_vezes_defrontou + 1;
             }
@@ -124,7 +130,8 @@ public class Liga {
         }
         else{
             mes = 8 + (dias_totais/30);
-            dia = ((11 + dias_totais)%30) * 30;
+            int dias_totais_temp = 11 + dias_totais;
+            dia = (dias_totais_temp%30);
             ano_d = this.ano;
         }
         String data = dia + "-" + mes + "-" + ano_d;
@@ -135,11 +142,14 @@ public class Liga {
         boolean continuar = false;
         Random aleatorio = new Random();
         Partida nova = new Partida();
-        if(this.jornada <= this.n_equipas){
+        if(this.jornada < this.equipas.size()){
             while(!continuar){
-                int equipa1 = aleatorio.nextInt(equipas.size() - 1) + 1;
-                int equipa2 = aleatorio.nextInt(equipas.size() - 1) + 1;
-                if(equipa1 != equipa2 && (equipa1_defrontou_equipa2(equipas.get(equipa1),equipas.get(equipa2))==0)){
+                //System.out.println("primeira metade tentando...");
+                int equipa1 = aleatorio.nextInt((equipas.size()) - 0) + 0;
+                System.out.println(equipa1);
+                int equipa2 = aleatorio.nextInt((equipas.size()) - 0) + 0;
+                System.out.println(equipa2);
+                if(equipa1 != equipa2 && (((equipa1_defrontou_equipa2(equipas.get(equipa1),equipas.get(equipa2))))==0)){
                     nova.setequipa_casa(equipas.get(equipa1));
                     nova.setequipa_visitante(equipas.get(equipa2));
                     continuar = true;
@@ -148,12 +158,13 @@ public class Liga {
                     continuar = false;
                 }
             }
+            System.out.println("primeira metade concluido");
         }
-        else if(this.jornada >this.n_equipas){
+        else if(this.jornada >=this.equipas.size() && this.jornada <= this.equipas.size() * 2 - 2){
             while(!continuar){
-            int equipa1 = aleatorio.nextInt(equipas.size() - 1) + 1;
-            int equipa2 = aleatorio.nextInt(equipas.size() - 1) + 1;
-            if(equipa1 != equipa2 && (equipa1_defrontou_equipa2(equipas.get(equipa1),equipas.get(equipa2))==1)){
+            int equipa1 = aleatorio.nextInt(equipas.size()) + 0;
+            int equipa2 = aleatorio.nextInt(equipas.size()) + 0;
+            if(equipa1 != equipa2 && ((equipa1_defrontou_equipa2(equipas.get(equipa1),equipas.get(equipa2))))==1){
                 nova.setequipa_visitante(casa(equipas.get(equipa1),equipas.get(equipa2)));
                 nova.setequipa_casa(fora(equipas.get(equipa1),equipas.get(equipa2)));
                 continuar = true;
@@ -163,9 +174,14 @@ public class Liga {
             }
             }
         }
-        else if(this.jornada == this.n_equipas*2 - 2){
+        else if(this.jornada >= this.equipas.size()*2 - 2){
             //começar uma nova epoca
         }
         nova.setdata(data_jornada(this.jornada));
+        this.partidas.add(nova);
+    }
+    
+    public List <Partida> Getpartidas(){
+        return this.partidas;
     }
 }

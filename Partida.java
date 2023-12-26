@@ -14,9 +14,30 @@ public class Partida {
     private Equipa equipa_casa;
     private Equipa equipa_visitante;
     private String resultado;
-    private int golos_sofridos_casa;
-    private int golos_marcados_casa;
+    
+
+    public int getGolos_sofridos_casa() {
+        return golos_sofridos_casa;
+    }
+
+    public void setGolos_sofridos_casa(int golos_sofridos_casa) {
+        this.golos_sofridos_casa = golos_sofridos_casa;
+    }
+
+    public int getGolos_marcados_casa() {
+        return golos_marcados_casa;
+    }
+
+    public void setGolos_marcados_casa(int golos_marcados_casa) {
+        this.golos_marcados_casa = golos_marcados_casa;
+    }
+    private int golos_sofridos_casa = 0;
+    private int golos_marcados_casa = 0;
     private boolean terminada = false;
+    
+    public void terminou(){
+        this.terminada = true;
+    }
     
     public Equipa getequipa_casa(){
         return this.equipa_casa;
@@ -41,9 +62,9 @@ public class Partida {
         a.definir_tatica();
         a.alterar_moral_treinador();
         Random aleatorio = new Random();
-        int chances_minimas = (14 * a.getTreinador().getMoral()) / 100;
-        int chances_maximas = (24 *a.getTreinador().getMoral()) / 100;
-        int chances_golo = aleatorio.nextInt(chances_maximas - chances_minimas) + chances_minimas;
+        int chances_minimas = (14 * a.getTreinadorPrincipal().getMoral()) / 100;
+        int chances_maximas = (24 *a.getTreinadorPrincipal().getMoral()) / 100;
+        int chances_golo = aleatorio.nextInt((chances_maximas + 1) - chances_minimas) + chances_minimas;
         return chances_golo;
     }
     
@@ -52,7 +73,7 @@ public class Partida {
         Random aleatorio = new Random();
         for(int i = 0; i<a.getJogadoresLista().size(); i++){
             if(a.getJogadoresLista().get(i).getPosJogador() == "GR"){
-                probabilidade = probabilidade + (aleatorio.nextInt(1-0)+0);
+                probabilidade = probabilidade + (aleatorio.nextInt(2-0)+0);
             }
             else if(a.getJogadoresLista().get(i).getPosJogador() == "defesa"){
                 probabilidade = probabilidade + (aleatorio.nextInt(8-0)+0);
@@ -72,7 +93,7 @@ public class Partida {
         Random aleatorio = new Random();
         for(int i = 0; i<a.getJogadoresLista().size(); i++){
             if(a.getJogadoresLista().get(i).getPosJogador() == "atacante"){
-                probabilidade = probabilidade + (aleatorio.nextInt(1-0)+0);
+                probabilidade = probabilidade + (aleatorio.nextInt(2-0)+0);
             }
             else if(a.getJogadoresLista().get(i).getPosJogador() == "medio"){
                 probabilidade = probabilidade + (aleatorio.nextInt(8-0)+0);
@@ -103,7 +124,7 @@ public class Partida {
                     Jogador jogador_atual = this.equipa_casa.getJogadoresLista().get(j);
                     int chance_marcar_golo_atual = 0;
                     if(jogador_atual.getPosJogador() == "GR"){
-                        chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(1-0)+0);
+                        chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(2-0)+0);
                     }
                     else if(jogador_atual.getPosJogador() == "defesa"){
                         chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(8-0)+0);
@@ -142,7 +163,7 @@ public class Partida {
                         chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(30-0)+0);
                     }
                     else if(jogador_atual.getPosJogador() == "atacante"){
-                        chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(1-0)+0);
+                        chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(2-0)+0);
                     }
                     if(chance_defender_golo_atual > chance_defender_golo){
                         chance_defender_golo = chance_defender_golo_atual;
@@ -164,7 +185,7 @@ public class Partida {
                     Jogador jogador_atual = this.equipa_visitante.getJogadoresLista().get(j);
                     int chance_marcar_golo_atual = 0;
                     if(jogador_atual.getPosJogador() == "GR"){
-                        chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(1-0)+0);
+                        chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(2-0)+0);
                     }
                     else if(jogador_atual.getPosJogador() == "defesa"){
                         chance_marcar_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(8-0)+0);
@@ -203,7 +224,7 @@ public class Partida {
                         chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(30-0)+0);
                     }
                     else if(jogador_atual.getPosJogador() == "atacante"){
-                        chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(1-0)+0);
+                        chance_defender_golo_atual = jogador_atual.getOverall() + (aleatorio.nextInt(2-0)+0);
                     }
                     if(chance_defender_golo_atual > chance_defender_golo){
                         chance_defender_golo = chance_defender_golo_atual;
@@ -242,8 +263,8 @@ public class Partida {
         for(int i = 0; i < this.equipa_casa.getJogadoresLista().size(); i ++){
             Jogador atual = this.equipa_casa.getJogadoresLista().get(i);
             if(atual.getPosJogador() == "GR"){
-                atual.getInfo_defesa().setBolas_recuperadas(atual.getInfo_defesa().getBolas_recuperadas() + (aleatorio.nextInt(2-0)+0));
-                atual.getInfo_defesa().setCarrinhos_certos(atual.getInfo_defesa().getCarrinhos_certos() + (aleatorio.nextInt(1-0)+0));
+                atual.getInfo_defesa().setBolas_recuperadas(atual.getInfo_defesa().getBolas_recuperadas() + (aleatorio.nextInt(3-0)+0));
+                atual.getInfo_defesa().setCarrinhos_certos(atual.getInfo_defesa().getCarrinhos_certos() + (aleatorio.nextInt(2-0)+0));
                 atual.getInfo_defesa().setCortes_certos(atual.getInfo_defesa().getCortes_certos() + (aleatorio.nextInt(2-0)+0));
             }
             else if(atual.getPosJogador() == "defesa"){
@@ -265,8 +286,8 @@ public class Partida {
     for(int i = 0; i < this.equipa_visitante.getJogadoresLista().size(); i ++){
             Jogador atual = this.equipa_visitante.getJogadoresLista().get(i);
             if(atual.getPosJogador() == "GR"){
-                atual.getInfo_defesa().setBolas_recuperadas(atual.getInfo_defesa().getBolas_recuperadas() + (aleatorio.nextInt(2-0)+0));
-                atual.getInfo_defesa().setCarrinhos_certos(atual.getInfo_defesa().getCarrinhos_certos() + (aleatorio.nextInt(1-0)+0));
+                atual.getInfo_defesa().setBolas_recuperadas(atual.getInfo_defesa().getBolas_recuperadas() + (aleatorio.nextInt(3-0)+0));
+                atual.getInfo_defesa().setCarrinhos_certos(atual.getInfo_defesa().getCarrinhos_certos() + (aleatorio.nextInt(2-0)+0));
                 atual.getInfo_defesa().setCortes_certos(atual.getInfo_defesa().getCortes_certos() + (aleatorio.nextInt(2-0)+0));
             }
             else if(atual.getPosJogador() == "defesa"){
@@ -343,40 +364,17 @@ public class Partida {
             System.out.println("Esta partida já foi disputada anteriormente!");
         }
     }
-}
     
-//    public String criardataaleatoria(){
-//        Random aleatorio = new Random();
-//        int mes = aleatorio.nextInt(12 - 1) + 1;
-//        int ano = aleatorio.nextInt(2100 - 2024) + 2024;
-//        boolean bissexto = false;
-//        int dia = 0;
-//        if(ano%400 == 0){
-//            bissexto = true;
-//        }
-//        else if(ano%100 == 0){
-//            bissexto = false;
-//        }
-//        else if(ano%4 == 0){
-//            bissexto = true;
-//        }
-//        else{
-//            bissexto = false;
-//        }
-//        if(mes == 2 && bissexto){
-//            dia = aleatorio.nextInt(29 - 1) + 1;
-//        }
-//        else if(mes == 2 && !bissexto){
-//            dia = aleatorio.nextInt(28 - 1) + 1;
-//        }
-//        else if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12){
-//            dia = aleatorio.nextInt(31 - 1) + 1;
-//        }
-//        else{
-//            dia = aleatorio.nextInt(30 - 1) + 1;
-//        }
-//        String data = dia + "-" + mes + "-" + ano;
-//        return data;
-//    }
-
-//}
+    public void setresultado(){
+        this.resultado = this.golos_marcados_casa + "-" + this.golos_sofridos_casa;
+    }
+    public String toString(){
+        if(!this.terminada){
+            return "Data: " + this.data + "\nEquipa da casa: " + this.equipa_casa.getNome() + "\nEquipa visitante: " + this.equipa_visitante.getNome();
+        }
+        else{
+            setresultado();
+            return "Data: " + this.data + "\nEquipa da casa: " + this.equipa_casa.getNome() + "\nEquipa visitante: " + this.equipa_visitante.getNome() + "\nResultado:" + this.resultado;
+        }
+    }  
+}

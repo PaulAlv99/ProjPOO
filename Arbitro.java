@@ -10,7 +10,6 @@ import java.util.Random;
  * @author Renato
  */
 public class Arbitro extends Pessoa {
-    private String nome = "";
     private int idade = 0;
     private int experiencia = 0;
 

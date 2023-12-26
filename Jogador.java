@@ -27,6 +27,10 @@ public class Jogador extends Pessoa {
     public Jogador(){
         
     }
+    public Jogador(String nome,int idade){
+        this.nome=nome;
+        this.idade=idade;
+    }
     public String getEquipa() {
         return equipa;
     }
